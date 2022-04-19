@@ -3,6 +3,9 @@
 ## Name: Osama Alzaghal.
 ## Date: 14-4-2022.
 ---
+
+### Introduction
+This web app is for a hotel management system. Users can view the hotels, rooms, and the amenities available either by retrieving all data of each table or by getting a specific one using it's ID.
 ### I have the following tables:
 + Room: so this room has a unique ID and other properites such as name and layout.
 + Hotel: the hotel has an ID, name, street address, city, state, country, and phone. All of these are provided in the requierments.
