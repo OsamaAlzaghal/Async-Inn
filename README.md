@@ -16,3 +16,23 @@ This web app is for a hotel management system. Users can view the hotels, rooms,
 ---
 ## Async Inn ERD
 ![ERD](AsyncInn.drawio.png)
+
+---
+## Date: 21-4-2022.
+---
+### Update
+So for Lab13, I did the following:
++ Using Dependency Injection, I refactored my Hotels, Rooms, and Amenities Controllers to depend on an interface rather than the DbContext.
+
++ Built an interface for each of the controllers that contain the required method signatures to all for CRUD operations to the database directly.
+
++ Updated each of the controllers to inject the interface rather than the DBContext.
+
++ Created a service for each of the controllers that implement the appropriate interface. Built out the logic to satisfy the interface by making the appropriate calls to the db for each action.
+
++ Updated me Controller to use the appropriate method from the interface rather than the DBContext directly.
+
++ Confirmed in POSTMAN that my controllers are returning the same logic as they did in Lab 12 for the CRUD operations.
+
+### Architecture pattern
+So for this project, I have interfaces and services classes  to depend on rather than the AsyncInnDbContext. I used a variable of the interface to access the methods I implemented inside my services classes, then refactored my controllers so they have a single task to do.
