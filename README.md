@@ -69,9 +69,9 @@ Update: added new endpoints.
 ---
 ### For HotelRoomsController
 + GET: api/HotelRooms/{hotelId}
-+ GET: api/HotelRooms/{hotelId}/{roomId}
-+ POST: api/HotelRooms/{hotelId}/{roomId}
-+ DELETE: api/HotelRooms/{hotelId}/{roomId}
-+ PUT: api/HotelRooms/{hotelId}/{roomId}
++ GET: api/HotelRooms/{hotelId}/{roomNumber}
++ POST: api/HotelRooms/{hotelId}/{roomId}/{roomNumber}
++ DELETE: api/HotelRooms/{hotelId}/{roomNumber}
++ PUT: api/HotelRooms/{hotelId}/{roomNumber}
 
 ---
