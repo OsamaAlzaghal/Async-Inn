@@ -17,12 +17,13 @@ namespace AsyncInn.Models.Services
             _context = context;
         }
 
-        public async Task<HotelRoom> AddRoomToHotel(int hotelId, int roomId)
+        public async Task<HotelRoom> AddRoomToHotel(int hotelId, int roomId, int roomNumber)
         {
             var hotelRoom = new HotelRoom
             {
                 HotelID = hotelId,
-                RoomID = roomId
+                RoomID = roomId,
+                RoomNumber = roomNumber
             };
 
             _context.Entry(hotelRoom).State = EntityState.Added;
@@ -30,10 +31,10 @@ namespace AsyncInn.Models.Services
             return hotelRoom;
         }
 
-        public async Task DeleteRoomFromHotel(int hotelId, int roomId)
+        public async Task DeleteRoomFromHotel(int hotelId, int roomNumber)
         {
             var hotelRoom = await _context.HotelRooms
-                                          .Where(x => x.HotelID == hotelId & x.RoomID == roomId)
+                                          .Where(x => x.HotelID == hotelId & x.RoomNumber == roomNumber)
                                           .FirstOrDefaultAsync();
 
             _context.Entry(hotelRoom).State = EntityState.Deleted;
@@ -48,25 +49,27 @@ namespace AsyncInn.Models.Services
                                   .FirstOrDefaultAsync(x => x.ID == hotelId);
         }
 
-        public async Task<Room> RoomDetails(int hotelId, int roomId)
+        public async Task<Room> RoomDetails(int hotelId, int roomNumber)
         {
             var hotelRoom = await _context.HotelRooms
-                                          .Where(x => x.HotelID == hotelId & x.RoomID == roomId)
+                                          .Where(x => x.HotelID == hotelId & x.RoomNumber == roomNumber)
                                           .FirstAsync();
 
             var room = await _context.Rooms
-                                      .Where(x => x.ID == hotelRoom.RoomID)
-                                      .FirstAsync();
+                                     .Where(x => x.ID == hotelRoom.RoomID)
+                                     .FirstAsync();
             return room;
         }
 
-        public async Task<Room> UpdateRoomDetails(int hotelId, int roomId, Room room)
+        // Needs to be fixed.
+        public async Task<Room> UpdateRoomDetails(int hotelId, int roomNumber, Room room)
         {
             var hotelRoom = await _context.HotelRooms
-                                          .Where(x => x.HotelID == hotelId & x.RoomID == roomId)
+                                          .Where(x => x.HotelID == hotelId & x.RoomNumber == roomNumber)
                                           .FirstAsync();
 
             hotelRoom.Room = room;
+            _context.Entry(hotelRoom.Room).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return room;

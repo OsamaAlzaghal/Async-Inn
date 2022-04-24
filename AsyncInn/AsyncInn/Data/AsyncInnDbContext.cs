@@ -43,7 +43,7 @@ namespace AsyncInn.Data
                 });
 
             // Keys added for join tables.
-            modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelID, x.RoomID });
+            modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelID, x.RoomNumber });
             modelBuilder.Entity<RoomAmenity>().HasKey(x => new { x.RoomID, x.AmenityID });
         }
     }

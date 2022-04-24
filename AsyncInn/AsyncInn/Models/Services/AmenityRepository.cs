@@ -30,7 +30,7 @@ namespace AsyncInn.Models.Services
 
             var amenities = await _context.Amenities
                                       .Include(x => x.RoomAmenities)
-                                      .ThenInclude(c => c.Amenity)
+                                      .ThenInclude(c => c.Room)
                                       .ToListAsync();
             return amenities;
         }

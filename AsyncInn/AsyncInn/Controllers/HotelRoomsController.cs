@@ -23,10 +23,10 @@ namespace AsyncInn.Controllers
         }
 
         // GET: api/HotelRooms/1/1
-        [HttpGet("{hotelId}/{roomId}")]
-        public async Task<IActionResult> GetRoomDetails(int hotelId, int roomId)
+        [HttpGet("{hotelId}/{roomNumber}")]
+        public async Task<IActionResult> GetRoomDetails(int hotelId, int roomNumber)
         {
-            var room = await _HotelRoom.RoomDetails(hotelId, roomId);
+            var room = await _HotelRoom.RoomDetails(hotelId, roomNumber);
             return Ok(room);
         }
 
@@ -38,26 +38,26 @@ namespace AsyncInn.Controllers
             return Ok(hotelRooms);
         }
 
-        [HttpPut("{hotelId}/{roomId}")]
-        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomId, Room room)
+        [HttpPut("{hotelId}/{roomNumber}")]
+        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, Room room)
         {
-            var newRoom = await _HotelRoom.UpdateRoomDetails(hotelId, roomId, room);
+            var newRoom = await _HotelRoom.UpdateRoomDetails(hotelId, roomNumber, room);
             return Ok(newRoom);
         }
 
-        // POST: api/HotelRooms/3/1
-        [HttpPost("{hotelId}/{roomId}")]
-        public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, int roomId)
+        // POST: api/HotelRooms/3/1/1
+        [HttpPost("{hotelId}/{roomId}/{roomNumber}")]
+        public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, int roomId, int roomNumber)
         {
-            var hotelRoom = await _HotelRoom.AddRoomToHotel(hotelId, roomId);
+            var hotelRoom = await _HotelRoom.AddRoomToHotel(hotelId, roomId, roomNumber);
             return Ok(hotelRoom);
         }
 
-        // DELETE: api/HotelRooms/1
-        [HttpDelete("{hotelId}/{roomId}")]
-        public async Task<IActionResult> DeleteHotelRoom(int hotelId, int roomId)
+        // DELETE: api/HotelRooms/1/1
+        [HttpDelete("{hotelId}/{roomNumber}")]
+        public async Task<IActionResult> DeleteHotelRoom(int hotelId, int roomNumber)
         {
-            await _HotelRoom.DeleteRoomFromHotel(hotelId, roomId);
+            await _HotelRoom.DeleteRoomFromHotel(hotelId, roomNumber);
             return NoContent();
         }
     }

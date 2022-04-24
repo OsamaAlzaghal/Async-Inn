@@ -29,6 +29,8 @@ namespace AsyncInn.Models.Services
             //return rooms;
 
             var rooms = await _context.Rooms
+                                      .Include(x => x.HotelRooms)
+                                      .ThenInclude(x => x.Hotel)
                                       .Include(x => x.RoomAmenities)
                                       .ThenInclude(c => c.Amenity)
                                       .ToListAsync();
@@ -73,7 +75,7 @@ namespace AsyncInn.Models.Services
             //room.RoomAmenities = null;
             //_context.Entry(room).State = EntityState.Modified;
 
-            var roomAmenity = await _context.RoomAmenities.Where(x => x.AmenityID == amenityId & x.RoomID == roomId)
+            var roomAmenity = await _context.RoomAmenities.Where(x => x.AmenityID == amenityId && x.RoomID == roomId)
                                                           .FirstOrDefaultAsync();
             if(roomAmenity != null)
             {
