@@ -9,9 +9,12 @@ namespace AsyncInn.Data
 {
     public class AsyncInnDbContext : DbContext
     {
+        // Creating tables.
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<RoomAmenity> RoomAmenities { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
         public AsyncInnDbContext(DbContextOptions options) : base(options)
         {
 
@@ -38,7 +41,10 @@ namespace AsyncInn.Data
                 new Amenity { ID = 2, Name = "Ocean View" },
                 new Amenity { ID = 3, Name = "Mini Bar"
                 });
-          
+
+            // Keys added for join tables.
+            modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelID, x.RoomID });
+            modelBuilder.Entity<RoomAmenity>().HasKey(x => new { x.RoomID, x.AmenityID });
         }
     }
 }

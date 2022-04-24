@@ -25,13 +25,25 @@ namespace AsyncInn.Models.Services
         }
         public async Task<List<Amenity>> GetAmenities()
         {
-            var amenities = await _context.Amenities.ToListAsync();
+            //var amenities = await _context.Amenities.ToListAsync();
+            //return amenities;
+
+            var amenities = await _context.Amenities
+                                      .Include(x => x.RoomAmenities)
+                                      .ThenInclude(c => c.Amenity)
+                                      .ToListAsync();
             return amenities;
         }
         public async Task<Amenity> GetAmenity(int id)
         {
-            // The system knows we have a primary key and will use it
-            Amenity amenity = await _context.Amenities.FindAsync(id);
+            //// The system knows we have a primary key and will use it
+            //Amenity amenity = await _context.Amenities.FindAsync(id);
+            //return amenity;
+
+            var amenity = await _context.Amenities.Where(x => x.ID == id)
+                                            .Include(x => x.RoomAmenities)
+                                            .ThenInclude(c => c.Room)
+                                            .FirstOrDefaultAsync();
             return amenity;
         }
 

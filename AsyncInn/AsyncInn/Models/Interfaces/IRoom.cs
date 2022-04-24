@@ -12,5 +12,9 @@ namespace AsyncInn.Models.Interfaces
         Task<Room> Create(Room room);
         Task Delete(int id);
         Task<Room> UpdateRoom(int id, Room room);
+
+        // New methods.
+        Task AddAmenityToRoom(int roomId, int amenityId);
+        Task RemoveAmentityFromRoom(int roomId, int amenityId);
     }
 }

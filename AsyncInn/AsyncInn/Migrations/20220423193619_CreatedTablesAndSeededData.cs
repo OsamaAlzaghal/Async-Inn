@@ -2,7 +2,7 @@
 
 namespace AsyncInn.Migrations
 {
-    public partial class AddTablesAndSeedData : Migration
+    public partial class CreatedTablesAndSeededData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

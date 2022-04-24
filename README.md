@@ -36,3 +36,42 @@ So for Lab13, I did the following:
 
 ### Architecture pattern
 So for this project, I have interfaces and services classes  to depend on rather than the AsyncInnDbContext. I used a variable of the interface to access the methods I implemented inside my services classes, then refactored my controllers so they have a single task to do.
+
+---
+## Date: 24-4-2022.
+Update: added new endpoints.
+
+---
+## Endpoints:
+---
+### For HotelController
++ GET: api/Hotels
++ GET: api/Hotels/{id}
++ PUT: api/Hotels/{id}
++ POST: api/Hotels/Hotel
++ DELETE: api/Hotels/{id}
+---
+### For AmenitiesController
++ GET: api/Amenities
++ GET: api/Amenities/5
++ PUT: api/Amenities/5
++ POST: api/Amenities
++ DELETE: api/Amenities/5
+---
+### For RoomController
++ GET: api/Rooms 
++ GET: api/Rooms/{id}
++ PUT: api/Rooms/{id}
++ POST: api/Rooms/Room
++ DELETE: api/Rooms/{id}
++ POST: api/Rooms/{roomId}/{amenityId}
++ DELETE: api/Rooms/{roomId}/{amenityId}
+---
+### For HotelRoomsController
++ GET: api/HotelRooms/{hotelId}
++ GET: api/HotelRooms/{hotelId}/{roomId}
++ POST: api/HotelRooms/{hotelId}/{roomId}
++ DELETE: api/HotelRooms/{hotelId}/{roomId}
++ PUT: api/HotelRooms/{hotelId}/{roomId}
+
+---
