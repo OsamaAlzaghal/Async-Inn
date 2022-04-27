@@ -69,9 +69,174 @@ Update: added new endpoints.
 ---
 ### For HotelRoomsController
 + GET: api/HotelRooms/{hotelId}
-+ GET: api/HotelRooms/{hotelId}/{roomNumber}
-+ POST: api/HotelRooms/{hotelId}/{roomId}/{roomNumber}
-+ DELETE: api/HotelRooms/{hotelId}/{roomNumber}
-+ PUT: api/HotelRooms/{hotelId}/{roomNumber}
++ GET: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
++ POST: api/HotelRooms/{hotelId}/Rooms
++ DELETE: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
++ PUT: api/HotelRooms/{hotelId}/Rooms/{roomNumber}
 
 ---
+
+## Date: 27-4-2022.
+### Update: Added DTOs and modified the controllers.
+So for this lab, I created DTOs that changed the user output of my controller. So when calling api/Hotels/{id}, here is the expected output: 
+
+```
+{
+    "id": 1,
+    "name": "My really cool Hotel",
+    "streetAddress": "123 CandyCane Lane",
+    "city": "Seattle",
+    "state": "WA",
+    "phone": "123-456-8798",
+    "rooms": [
+        {
+            "hotelID": 1,
+            "roomNumber": 101,
+            "rate": 75.00,
+            "petFriendly": false,
+            "roomID": 2,
+            "room": {
+                "id": 2,
+                "name": "Queen Suite",
+                "layout": "TwoBedroom",
+                "amenities": [
+                    {
+                        "id": 1,
+                        "name": "Coffee Maker"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Mini Bar"
+                    }
+                ]
+            }
+        },
+        {
+            "hotelID": 1,
+            "roomNumber": 123,
+            "rate": 120.00,
+            "petFriendly": true,
+            "roomID": 1,
+            "room": {
+                "id": 1,
+                "name": "Princess Suite",
+                "layout": "OneBedroom",
+                "amenities": [
+                    {
+                        "id": 1,
+                        "name": "Coffee Maker"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Mini Bar"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+And if api/Hotels got called, it will return an array on the same structure, and for GET /api/Hotels/{hotelId}/Rooms, it will return the following output: 
+
+```
+{
+    "hotelID": 1,
+    "roomNumber": 101,
+    "rate": 75.00,
+    "petFriendly": false,
+    "roomID": 2,
+    "room": {
+        "id": 2,
+        "name": "Queen Suite",
+        "layout": "TwoBedroom",
+        "amenities": [
+            {
+                "id": 1,
+                "name": "Coffee Maker"
+            },
+            {
+                "id": 2,
+                "name": "Mini Bar"
+            }
+        ]
+    }
+}
+```
+
+Lastly, GET api/rooms/{roomId} and GET api/amenities/{id}, the first one will be:
+
+```
+{
+    "id": 1,
+    "name": "Princess Suite",
+    "layout": "OneBedroom",
+    "amenities": [
+        {
+            "id": 1,
+            "name": "Coffee Maker"
+        },
+        {
+            "id": 2,
+            "name": "Mini Bar"
+        }
+    ]
+}
+```
+
+And the second one:
+```
+{
+    "id": 1,
+    "name": "Coffee Maker"
+}
+```
+---
+### DTOs:
+Here, I have four DTOs which are:
+```
+    public class HotelDTO
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string StreetAddress { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Phone { get; set; }
+        public List<HotelRoomDTO> Rooms { get; set; }
+    }
+
+
+    public class HotelRoomDTO
+    {
+        public int HotelID { get; set; }
+        public int RoomNumber { get; set; }
+        public decimal Rate { get; set; }
+        public bool PetFriendly { get; set; }
+        public int RoomID { get; set; }
+        public RoomDTO Room { get; set; }
+    }
+
+    public class RoomDTO
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Layout { get; set; }
+        public List<AmenityDTO> Amenities { get; set; }
+    }
+
+    public class AmenityDTO
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+```
+---
+### How to use my application?
+Just open the solution file and it will view the API documentation, it allows the user to test each HTTP request as well.
+
+### Endpoints:
+![Amenities](Images/Amenities.jpg)
+![Hotels](Images/Hotels.jpg)
+![Rooms](Images/Rooms.jpg)
+![HotelRooms](Images/HotelRooms.jpg)
