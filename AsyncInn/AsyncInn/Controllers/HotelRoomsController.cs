@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
 using AsyncInn.Models.Interfaces;
+using AsyncInn.Models.DTOs;
 
 namespace AsyncInn.Controllers
 {
@@ -24,7 +25,7 @@ namespace AsyncInn.Controllers
 
         // GET: api/HotelRooms/1/Rooms/1
         [HttpGet("{hotelId}/Rooms/{roomNumber}")]
-        public async Task<IActionResult> GetRoomDetails(int hotelId, int roomNumber)
+        public async Task<ActionResult<HotelRoomDTO>> GetRoomDetails(int hotelId, int roomNumber)
         {
             var room = await _HotelRoom.RoomDetails(hotelId, roomNumber);
             return Ok(room);
@@ -39,17 +40,17 @@ namespace AsyncInn.Controllers
         }
         // PUT: api/HotelRooms/hotelId/Rooms/roomNumber
         [HttpPut("{hotelId}/Rooms/{roomNumber}")]
-        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom)
+        public async Task<ActionResult<HotelRoomDTO>> PutHotelRoom(int hotelId, int roomNumber, HotelRoomDTO hotelRoom)
         {
             var newRoom = await _HotelRoom.UpdateRoomDetails(hotelId, roomNumber, hotelRoom);
             return Ok(newRoom);
         }
         // I added more details so that I can add the number of my room with it's other details.
         // POST: api/HotelRooms/3/1/1
-        [HttpPost("{hotelId}/RoomID/{roomId}/Rooms/{roomNumber}")]
-        public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, int roomId, int roomNumber)
+        [HttpPost("{hotelId}/Rooms")]
+        public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, HotelRoomDTO room)
         {
-            var hotelRoom = await _HotelRoom.AddRoomToHotel(hotelId, roomId, roomNumber);
+            var hotelRoom = await _HotelRoom.AddRoomToHotel(hotelId, room);
             return Ok(hotelRoom);
         }
 

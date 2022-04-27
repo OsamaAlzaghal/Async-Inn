@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Data;
+using AsyncInn.Models.DTOs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,39 +18,38 @@ namespace AsyncInn.Models.Services
             _context = context;
         }
 
-        public async Task<Amenity> Create(Amenity amenity)
+        public async Task<Amenity> Create(AmenityDTO amenityDTO)
         {
-            _context.Entry(amenity).State = EntityState.Added;
+            Amenity newAmenity = new Amenity
+            {
+                Name = amenityDTO.Name
+            };
+
+            _context.Entry(newAmenity).State = EntityState.Added;
             await _context.SaveChangesAsync();
-            return amenity;
+            return newAmenity;
         }
-        public async Task<List<Amenity>> GetAmenities()
+        public async Task<List<AmenityDTO>> GetAmenities()
         {
-            //var amenities = await _context.Amenities.ToListAsync();
-            //return amenities;
-
-            var amenities = await _context.Amenities
-                                      .Include(x => x.RoomAmenities)
-                                      .ThenInclude(c => c.Room)
-                                      .ToListAsync();
-            return amenities;
+            return await _context.Amenities.Select(x => new AmenityDTO
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToListAsync();
         }
-        public async Task<Amenity> GetAmenity(int id)
+        public async Task<AmenityDTO> GetAmenity(int id)
         {
-            //// The system knows we have a primary key and will use it
-            //Amenity amenity = await _context.Amenities.FindAsync(id);
-            //return amenity;
-
-            var amenity = await _context.Amenities.Where(x => x.ID == id)
-                                            .Include(x => x.RoomAmenities)
-                                            .ThenInclude(c => c.Room)
-                                            .FirstOrDefaultAsync();
-            return amenity;
+            return await _context.Amenities.Select(x => new AmenityDTO
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).FirstOrDefaultAsync( x => x.ID == id);
         }
 
         public async Task Delete(int id)
         {
-            Amenity amenity = await GetAmenity(id);
+
+            Amenity amenity = await _context.Amenities.FirstOrDefaultAsync(x => x.ID == id);
             _context.Entry(amenity).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }

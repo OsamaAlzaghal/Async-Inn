@@ -1,4 +1,5 @@
 ﻿using AsyncInn.Data;
+using AsyncInn.Models.DTOs;
 using AsyncInn.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,21 +24,73 @@ namespace AsyncInn.Models.Services
             await _context.SaveChangesAsync();
             return hotel;
         }
-        public async Task<List<Hotel>> GetHotels()
+        public async Task<List<HotelDTO>> GetHotels()
         {
-            var hotels = await _context.Hotels.ToListAsync();
-            return hotels;
+            return await _context.Hotels.Select(x => new HotelDTO
+            {
+                ID = x.ID,
+                Name = x.Name,
+                StreetAddress = x.StreetAddress,
+                City = x.City,
+                State = x.State,
+                Phone = x.Phone,
+                Rooms = x.HotelRooms.Select(x => new HotelRoomDTO
+                {
+                    HotelID = x.HotelID,
+                    RoomNumber = x.RoomNumber,
+                    Rate = x.Rate,
+                    PetFriendly = x.PetFriendly,
+                    RoomID = x.RoomID,
+                    Room = new RoomDTO
+                    {
+                        ID = x.Room.ID,
+                        Name = x.Room.Name,
+                        Layout = x.Room.Layout,
+                        Amenities = x.Room.RoomAmenities.Select(x => new AmenityDTO
+                        {
+                            ID = x.AmenityID,
+                            Name = x.Amenity.Name
+                        }).ToList()
+
+                    }
+                }).ToList()
+            }).ToListAsync();
         }
-        public async Task<Hotel> GetHotel(int id)
-        {
-            // The system knows we have a primary key and will use it
-            Hotel hotel = await _context.Hotels.FindAsync(id);
-            return hotel;
+        public async Task<HotelDTO> GetHotel(int id)
+        { 
+            return await _context.Hotels.Select(x => new HotelDTO
+            {
+                ID = x.ID,
+                Name = x.Name,
+                StreetAddress = x.StreetAddress,
+                City = x.City,
+                State = x.State,
+                Phone = x.Phone,
+                Rooms = x.HotelRooms.Select(x => new HotelRoomDTO
+                {
+                    HotelID = x.HotelID,
+                    RoomNumber = x.RoomNumber,
+                    Rate = x.Rate,
+                    PetFriendly = x.PetFriendly,
+                    RoomID = x.RoomID,
+                    Room = new RoomDTO
+                    {
+                        ID = x.Room.ID,
+                        Name = x.Room.Name,
+                        Layout = x.Room.Layout,
+                        Amenities = x.Room.RoomAmenities.Select(x => new AmenityDTO
+                        {
+                            ID = x.AmenityID,
+                            Name = x.Amenity.Name
+                        }).ToList()
+                    }
+                }).ToList()
+            }).FirstOrDefaultAsync(x => x.ID == id);           
         }
 
         public async Task Delete(int id)
         {
-            Hotel hotel = await GetHotel(id);
+            Hotel hotel = await _context.Hotels.FirstOrDefaultAsync(x => x.ID == id);
             _context.Entry(hotel).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }
