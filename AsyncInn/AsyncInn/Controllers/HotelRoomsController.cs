@@ -22,8 +22,8 @@ namespace AsyncInn.Controllers
             _HotelRoom = hotelRoom;
         }
 
-        // GET: api/HotelRooms/1/1
-        [HttpGet("{hotelId}/{roomNumber}")]
+        // GET: api/HotelRooms/1/Rooms/1
+        [HttpGet("{hotelId}/Rooms/{roomNumber}")]
         public async Task<IActionResult> GetRoomDetails(int hotelId, int roomNumber)
         {
             var room = await _HotelRoom.RoomDetails(hotelId, roomNumber);
@@ -37,16 +37,16 @@ namespace AsyncInn.Controllers
             var hotelRooms = await _HotelRoom.GetHotelRooms(hotelId);
             return Ok(hotelRooms);
         }
-
-        [HttpPut("{hotelId}/{roomNumber}")]
-        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, Room room)
+        // PUT: api/HotelRooms/hotelId/Rooms/roomNumber
+        [HttpPut("{hotelId}/Rooms/{roomNumber}")]
+        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom)
         {
-            var newRoom = await _HotelRoom.UpdateRoomDetails(hotelId, roomNumber, room);
+            var newRoom = await _HotelRoom.UpdateRoomDetails(hotelId, roomNumber, hotelRoom);
             return Ok(newRoom);
         }
-
+        // I added more details so that I can add the number of my room with it's other details.
         // POST: api/HotelRooms/3/1/1
-        [HttpPost("{hotelId}/{roomId}/{roomNumber}")]
+        [HttpPost("{hotelId}/RoomID/{roomId}/Rooms/{roomNumber}")]
         public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, int roomId, int roomNumber)
         {
             var hotelRoom = await _HotelRoom.AddRoomToHotel(hotelId, roomId, roomNumber);
@@ -54,7 +54,7 @@ namespace AsyncInn.Controllers
         }
 
         // DELETE: api/HotelRooms/1/1
-        [HttpDelete("{hotelId}/{roomNumber}")]
+        [HttpDelete("{hotelId}/Rooms/{roomNumber}")]
         public async Task<IActionResult> DeleteHotelRoom(int hotelId, int roomNumber)
         {
             await _HotelRoom.DeleteRoomFromHotel(hotelId, roomNumber);

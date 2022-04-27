@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,16 @@ namespace AsyncInn
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
+            // Swagger added.
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("V1", new OpenApiInfo()
+                {
+                    Title = "Async Inn",
+                    Version = "V1",
+                });
+            });
+
             services.AddControllers();
             services.AddTransient<IHotel, HotelRepository>();
             services.AddTransient<IRoom, RoomRepository>();
@@ -51,6 +62,16 @@ namespace AsyncInn
             }
 
             app.UseRouting();
+            // Also for swagger.
+            app.UseSwagger(opt =>
+            {
+                opt.RouteTemplate = "/api/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/api/V1/swagger.json", "Async Inn");
+                opt.RoutePrefix = "";
+            });
 
             app.UseEndpoints(endpoints =>
             {
