@@ -240,3 +240,22 @@ Just open the solution file and it will view the API documentation, it allows th
 ![Hotels](Images/Hotels.jpg)
 ![Rooms](Images/Rooms.jpg)
 ![HotelRooms](Images/HotelRooms.jpg)
+
+---
+## Date: 7-5-2022.
+### Update: Added the Identity Register and Login methods.
+
+What is ASP.NET Core Identity?
+Is an API that supports user interface (UI) login functionality, manages users, passwords, profile data, roles, claims, tokens, email confirmation, and more. Users can create an account with the login information stored in Identity or they can use an external login provider such as Facebook, Google, Microsoft Account, and Twitter. ASP.NET Core Identity adds user interface (UI) login functionality to ASP.NET Core web apps.
+
+![UsersAPIs](Images/UsersAPIs.jpg)
+
+### Register: 
+The user sends a POST request with the registration data(Username, Password, Email, and PhoneNumber), then the program checks for any errors with the input data and if no errors found, it will return that register done, otherwise it will show the error.
+
+![Register](Images/Register.jpg)
+
+### Login: 
+The user sends a POST request with the Login data, then the program checks if there's a user with the Username and password sent, if yes, it will return oK and a message that Login is done, otherwise it will return that the user was not found or the password is wrong.
+
+![Login](Images/Login.jpg)
